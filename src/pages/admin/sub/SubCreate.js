@@ -22,34 +22,41 @@ const SubCreate = () => {
   const {user} = useSelector(state => ({...state}))
 
   useEffect(()=> {
+    const loadSubs = () => {
+      getSubs().then(res =>setSubs(res.data))
+      console.log(subs);
+    }
+
+    const loadCategories = () => {
+    
+      getCategories().then(res =>setCategories(res.data))
+      console.log(categories);
+    }
+
     loadSubs()
     loadCategories()
 
-  },[])
+  },[categories,subs])
 
-  const loadName = (parent) => {
-    categories.filter(c=> 
-      (c._id === parent)  
-      ? c.name 
-      : null
-    )
-  }
+  // const loadName = (parent) => {
+  //   categories.filter(c=> 
+  //     (c._id === parent)  
+  //     ? c.name 
+  //     : null
+  //   )
+  // }
 
-  const loadN = (pa) => {
-    const n = categories.filter(c => c._id === pa)
-    return n[0].name
-  }
+  // const loadN = (pa) => {
+  //   const n = categories.filter(c => c._id === pa)
+  //   return n[0].name
+  // }
 
   const loadSubs = () => {
     getSubs().then(res =>setSubs(res.data))
     console.log(subs);
   }
 
-  const loadCategories = () => {
-    
-    getCategories().then(res =>setCategories(res.data))
-    console.log(categories);
-  }
+  
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -147,7 +154,7 @@ const SubCreate = () => {
             <div 
               className ="alert alert-secondary" 
               key ={c._id}>
-                {c.name} - {loadN(c.parent)}
+                {c.name}
               <span onClick ={()=>handleRemove(c.slug)} style={{float:'right'}} className="btn btn-sm float-right">
                 <DeleteOutlined className="text-danger"/>
               </span> 

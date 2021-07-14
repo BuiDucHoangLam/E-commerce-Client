@@ -3,14 +3,12 @@ import AdminNav from '../../../component/nav/AdminNav'
 import { useSelector } from 'react-redux'
 import { updateCategory,getCategory } from '../../../functions/category'
 import { toast } from 'react-toastify'
-import { Link } from 'react-router-dom'
 import CategoryForm from '../../../component/form/CategoryForm'
 
 const CategoryUpdate = ({history,match}) => {
   const [name,setName] = useState('')
   const [loading,setLoading] = useState(false)
 
-  let value
   const {user} = useSelector(state => ({...state}))
   const {slug} = match.params
 
@@ -18,10 +16,9 @@ const CategoryUpdate = ({history,match}) => {
     getCategory(slug).then(res => {
       console.log(res);
       setName(res.data.name)
-      value = res.data.name
     })
     
-  },[])
+  },[slug])
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -36,34 +33,6 @@ const CategoryUpdate = ({history,match}) => {
       setLoading(false)
       toast.error('Update error!',err)
     })
-  }
-
-  
-  const handleReset = (e) => {
-    e.preventDefault()
-    setName(match.params.slug)
-  }
-
-  const cateUpdateForm = () => {
-    return(
-      <form onSubmit={handleSubmit}>
-      <input 
-        type='text' 
-        className='form-control' 
-        value={name} 
-        onChange={e=>setName(e.target.value)}
-        autoFocus
-        required
-      />
-      <br/>
-      <button onClick ={handleSubmit} type="submit" className="btn btn-raised">
-        Update
-      </button>
-      <button onClick ={handleReset} type="submit" className="btn btn-raised">
-        Reset
-      </button>
-    </form>
-    )
   }
 
   return (
@@ -81,7 +50,7 @@ const CategoryUpdate = ({history,match}) => {
             onSubmit = {handleSubmit}
             name = {name}
             change = {setName}
-            functionality = 'Create now'
+            functionality = 'Update now'
           />
           
         </div>

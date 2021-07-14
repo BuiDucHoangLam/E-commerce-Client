@@ -2,9 +2,10 @@ import React from 'react'
 
 const CategoryForm = ({onSubmit,name,functionality,change}) => {
   return(
-    <form onSubmit={onSubmit}>
+  <form onSubmit={onSubmit}>
     <label>Name</label>
     <input 
+      name='name'
       type='text' 
       className='form-control' 
       value={name} 

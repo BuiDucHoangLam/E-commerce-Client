@@ -1,13 +1,16 @@
 import React,{useState} from 'react'
-import { Menu } from 'antd';
+import { Menu,Badge } from 'antd';
 import { 
     HomeOutlined, 
     UserAddOutlined,
     UserOutlined,
     LogoutOutlined, 
+    ShoppingOutlined,
+    ShoppingCartOutlined
 } from '@ant-design/icons';
 import {Link} from 'react-router-dom'
 import firebase from 'firebase/app';
+import Search from '../form/Search';
 
 import { useDispatch,useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
@@ -18,7 +21,7 @@ const {Item} = Menu
 function Header() {
     const [current,setCurrent] = useState('home')
     let dispatch = useDispatch()
-    const {user} = useSelector((state)=>{
+    const {user,cart} = useSelector((state)=>{
         return ({...state})
     })
     let history = useHistory()
@@ -42,6 +45,16 @@ function Header() {
         <Menu onClick={handlerClick} selectedKeys={[current]} mode="horizontal" style={{display:'block'}}>
             <Item key="home" icon={<HomeOutlined />}>
                 <Link to="/">Home</Link>
+            </Item>
+
+            <Item key="shop" icon={<ShoppingOutlined />}>
+                <Link to="/shop">Shop</Link>
+            </Item>
+
+            <Item key="cart" icon={<ShoppingCartOutlined />}>
+                <Link to="/cart">
+                    <Badge count={cart.length} offset = {[9,0]}>Cart</Badge>
+                </Link>
             </Item>
            
             {!user && (
@@ -80,8 +93,10 @@ function Header() {
               {/* </ItemGroup> */}
               </SubMenu>
             )}
-           
-           
+           <Item key='search' style={{float:'right'}}>
+
+            <Search/>
+           </Item>
         </Menu>
     )
 }

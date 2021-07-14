@@ -48,10 +48,10 @@ const Password = () => {
   return (
     <div className="container-fluid">
       <div className = "row">
-        <div className ="col md-2">
+        <div className ="col-md-2">
           <UserNav />
         </div>
-        <div className = "col">
+        <div className = "col-md-10">
           {loading ? <h4 className ="text-danger">Loading...</h4> : <h4>Change your password</h4> }
           {passwordUpdateForm()}
         </div>

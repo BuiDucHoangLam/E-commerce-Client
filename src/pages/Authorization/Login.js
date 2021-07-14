@@ -15,17 +15,30 @@ const Login =  ({history}) => {
   const {user} = useSelector(state => ({...state}))
 
   useEffect(()=>{
+    let intended = history.location.state
+    if(intended) return
+    else {
+      if(user && user.token) history.push('/')
+    }
     if(user && user.token) history.push('/')
   },[user,history])
 
   let dispatch = useDispatch()
 
   const roleBaseRedirect = res => {
-    if(res.data.role === 'admin') {
-      history.push('/admin/dashboard')
+    // Check if intended
+    let intended = history.location.state
+
+    if(intended) {
+      history.push(intended.from)
     } else {
-      history.push('/user/history')
+      if(res.data.role === 'admin') {
+        history.push('/admin/dashboard')
+      } else {
+        history.push('/user/history')
+      }
     }
+    
   }
 
   const handleSubmit = async (e) => {

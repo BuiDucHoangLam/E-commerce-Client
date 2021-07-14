@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import AdminNav from '../../../component/nav/AdminNav'
 import { useSelector } from 'react-redux'
-import { getCategories,getCategory } from '../../../functions/category'
+import { getCategories } from '../../../functions/category'
 import { updateSub,getSub } from '../../../functions/sub'
 import { toast } from 'react-toastify'
-import { Link } from 'react-router-dom'
-import Select from 'react-select'
 
 import CategoryForm from '../../../component/form/CategoryForm'
 
@@ -20,17 +18,18 @@ const SubUpdate = ({history,match}) => {
   const {slug} = match.params
 
   useEffect(()=>{
+    const loadSub = () => {
+      getSub(slug).then(res => {
+        setName(res.data.name)
+        setParent(res.data.parent)
+      })
+  
+    }
     loadCategories()
     loadSub()
-  },[])
+  },[slug])
 
-  const loadSub = () => {
-    getSub(slug).then(res => {
-      setName(res.data.name)
-      setParent(res.data.parent)
-    })
-
-  }
+  
 
   const loadCategories = () => {
     getCategories().then(res =>setCategories(res.data))
@@ -87,15 +86,19 @@ const SubUpdate = ({history,match}) => {
               name="category" 
               className='form-control'
               onChange ={e => setParent(e.target.value)}
+              value={parent}
             >
-              <option>Select below</option>
+              {/* <option>Select below</option> */}
+            
               {categories.length > 0 && categories.map(c => {
-                
-                return <option key={c._id} value={c._id === parent} selected={c._id === parent}>
-                  {c.name}
-                </option>
-              }
-                
+                  if(c._id === parent) 
+                    <option key={c._id} value={c._id}>
+                      {c.name}
+                    </option>
+                  return <option key={c._id} value={c._id}>
+                    {c.name}
+                  </option>             
+                }
               )}
 
             </select>
@@ -105,12 +108,10 @@ const SubUpdate = ({history,match}) => {
             name = {name}
             change = {setName}
             functionality = 'Update now'
-           
           />
           <button onClick ={handleReset} type="submit" className="btn btn-raised">
             Reset
           </button>
-          
         </div>
       </div>
     </div>

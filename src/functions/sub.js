@@ -32,3 +32,4 @@ export const deleteSub = async (slug,authtoken) => {
     }
   })
 }
+

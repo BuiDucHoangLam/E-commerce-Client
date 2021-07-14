@@ -4,7 +4,7 @@ import {BrowserRouter} from 'react-router-dom'
 import {createStore} from 'redux'
 import {Provider} from 'react-redux'
 import {composeWithDevTools} from 'redux-devtools-extension'
-
+import './index.css'
 import "antd/dist/antd.css"
 import 'mdb-react-ui-kit/dist/css/mdb.min.css'
 
@@ -17,11 +17,11 @@ const store = createStore(rootReducer,composeWithDevTools())
 
 ReactDOM.render(
   <Provider store = {store}>
-    <React.StrictMode>
+    {/* <React.StrictMode> */}
     <BrowserRouter>
      <App />
     </BrowserRouter>
-  </React.StrictMode>
+  {/* </React.StrictMode> */}
   </Provider>,
   document.getElementById('root')
 );
